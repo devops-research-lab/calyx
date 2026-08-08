@@ -1,10 +1,6 @@
 name: Format
-
 on:
-  push: # allow for all branches, so forks can also validate on their own
-  pull_request:
-    branches: [main]
-
+  push: null
 jobs:
   format:
     name: Check Formatting
@@ -15,7 +11,7 @@ jobs:
     - name: Install stable
       uses: actions-rust-lang/setup-rust-toolchain@v1
       with:
-          components: rustfmt, clippy
+        components: rustfmt, clippy
     - name: Check formatting
       uses: actions-rs/cargo@v1
       with:
@@ -31,19 +27,18 @@ jobs:
       with:
         command: clippy
         args: --all --all-targets -- --deny warnings
-
   lint:
     name: Python Linting
     needs: format
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Formatting check
-        uses: astral-sh/ruff-action@v3
-        with:
-          args: "format --check"
-      - name: Linting check
-        uses: astral-sh/ruff-action@v3
-        with:
-          args: "check"
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Formatting check
+      uses: astral-sh/ruff-action@v3
+      with:
+        args: format --check
+    - name: Linting check
+      uses: astral-sh/ruff-action@v3
+      with:
+        args: check
